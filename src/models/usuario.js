@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
 
-const usuario = sequelize.define('usuario', {
+const formulario = sequelize.define('formulario', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -27,8 +27,8 @@ const usuario = sequelize.define('usuario', {
         unique: true,
     },
 }, {
-    tableName: 'usuario',
+    tableName: 'formulario',
     timestamps: false, //* Deshabilitar createdAt/updatedAt si no están en tu tabla
 });
 
-module.exports = usuario;
+module.exports = formulario;
