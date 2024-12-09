@@ -3,6 +3,7 @@ const sequelize = require('./database/database');
 const cors = require('cors');
 const usuarioForm = require('./routes/routesForm');
 const loginRoutes = require('./routes/loginRoutes');
+const registroRoutes = require('./routes/registroRoutes');
 
 const app = express();
 app.use(cors());
@@ -10,6 +11,7 @@ app.use(express.json());
 
 app.use('/api', usuarioForm);
 app.use('/api', loginRoutes);
+app.use('/api', registroRoutes);
 
 sequelize.sync({ alter: true })
     .then(() => console.log('Modelos sincronizados con la base de datos.'))
