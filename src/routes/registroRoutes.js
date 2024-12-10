@@ -1,5 +1,5 @@
 const express = require('express');
-const registroController = require('../controllers/registroController');
+const registroController = require('../controllers/registroController'); // Verifica que el controlador esté correctamente importado
 
 const router = express.Router();
 

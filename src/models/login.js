@@ -1,35 +1,33 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
-const Registro = require('./registro'); // Asegúrate de tener el modelo de registro correctamente definido
 
 const Login = sequelize.define('login', {
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
-    },
-    usuario_id: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,  // Esta es la referencia, en este caso al usuario de la tabla registro
-    },
-    contraseña_id: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true, // Asegúrate de que la contraseña también esté definida correctamente
-    },
-    rol: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: "usuario",
-    },
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
+  usuario_id: {
+    type: DataTypes.STRING,  // Asegúrate de que sea un STRING si es un nombre de usuario
+    allowNull: false,
+  },
+  contraseña_id: {
+    type: DataTypes.STRING,  // La contraseña debe estar en STRING (aunque sea cifrada)
+    allowNull: false,
+  },
+  rol: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "usuario",
+  },
+  cedula: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 }, {
-    tableName: 'login',
-    timestamps: false, //* Deshabilitar createdAt/updatedAt si no están en tu tabla
+  tableName: 'login',
+  timestamps: false,
 });
-
-// Definir la relación con la tabla 'registro', suponiendo que 'usuario_id' hace referencia al campo 'cedula' en 'registro'
-Login.belongsTo(Registro, { foreignKey: 'usuario_id', targetKey: 'usuario' });  // Cambia 'cedula' si el campo correcto es otro
 
 module.exports = Login;

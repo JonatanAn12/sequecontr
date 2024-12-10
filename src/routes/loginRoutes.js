@@ -2,11 +2,11 @@ const express = require('express');
 const loginController = require('../controllers/loginController');
 
 const router = express.Router();
-// Ruta para iniciar sesión
+
+// Ruta para el inicio de sesión
 router.post('/login', loginController.iniciarSesion);
-// Ruta para verificar el token JWT (protegida)
-router.get('/verificar-token', loginController.verificarToken, (req, res) => {
-  res.status(200).json({ message: 'Token válido', userId: req.userId, userRole: req.userRole });
-});
+
+// Ruta para la validación de token
+router.get('/registro', loginController.validarToken);
 
 module.exports = router;
