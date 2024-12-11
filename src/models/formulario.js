@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database/database'); // Ruta al archivo database.js
+const sequelize = require('../database/database'); 
 
 const formulario = sequelize.define('formulario', {
   nombre: {

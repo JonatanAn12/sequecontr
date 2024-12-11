@@ -5,7 +5,6 @@ const Registro = sequelize.define('registro', {
   cedula: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   nombre: {
     type: DataTypes.STRING,
@@ -14,14 +13,12 @@ const Registro = sequelize.define('registro', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   usuario: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
-  contraseña: {
+  password: {
     type: DataTypes.STRING,
     allowNull: false,
   },

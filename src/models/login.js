@@ -8,12 +8,12 @@ const Login = sequelize.define('login', {
     autoIncrement: true,
     allowNull: false,
   },
-  usuario_id: {
-    type: DataTypes.STRING,  // Asegúrate de que sea un STRING si es un nombre de usuario
+  usuario: {
+    type: DataTypes.STRING,  
     allowNull: false,
   },
-  contraseña_id: {
-    type: DataTypes.STRING,  // La contraseña debe estar en STRING (aunque sea cifrada)
+  password: {
+    type: DataTypes.STRING,  
     allowNull: false,
   },
   rol: {

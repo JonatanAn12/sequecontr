@@ -1,13 +1,8 @@
 const express = require('express');
-const registroController = require('../controllers/registroController'); // Verifica que el controlador esté correctamente importado
-
 const router = express.Router();
+const registroController = require('../controllers/registroController');
 
-// Rutas para los registros
-router.post('/registros', registroController.crearRegistro);
-router.get('/registros', registroController.obtenerRegistros);
-router.get('/registros/:id', registroController.obtenerRegistroPorId);
-router.put('/registros/:id', registroController.actualizarRegistro);
-router.delete('/registros/:id', registroController.eliminarRegistro);
+//* Ruta para registrar un nuevo usuario
+router.post('/registro', registroController.registrarUsuario);
 
 module.exports = router;

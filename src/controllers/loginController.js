@@ -1,50 +1,59 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Login = require("../models/login");
-require('dotenv').config();
+require("dotenv").config();
 
-exports.iniciarSesion = async (req, res) => {
+//* Iniciar sesión
+exports.iniciarSesion = async (request, response) => {
   try {
-    const { usuario, contraseña } = req.body;
+    const { usuario, password } = request.body;
 
-    // Buscar el usuario en la tabla login
-    const usuarioDB = await Login.findOne({ where: { usuario_id: usuario } }); // Revisa si 'usuario_id' es el nombre correcto del campo
+    //* Validar los datos de entrada
+    if (typeof usuario !== "string" || typeof password !== "string") {
+      return response.status(400).json({ message: "Usuario y password son requeridos y deben ser cadenas de texto" });
+    }
+
+    //* Buscar el usuario en la base de datos
+    const usuarioDB = await Login.findOne({ where: { usuario: usuario } });
     if (!usuarioDB) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return response.status(404).json({ message: "Credenciales inválidas" });
     }
-
-    // Verificar la contraseña
-    const contraseñaValida = await bcrypt.compare(contraseña, usuarioDB.contraseña_id); // Asegúrate que 'contraseña_id' sea el campo correcto
+    //* Verificar la contraseña cifrada
+    const contraseñaValida = await bcrypt.compare(password, usuarioDB.password);  //* Comparar la password
+    console.log('Contraseña válida:', contraseñaValida);
     if (!contraseñaValida) {
-      return res.status(401).json({ message: "Contraseña incorrecta" });
+      return response.status(401).json({ message: "Credenciales inválidas" });
     }
 
-    // Crear el token JWT
+    //* Crear el token JWT
     const token = jwt.sign(
       { id: usuarioDB.id, rol: usuarioDB.rol },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({
+    response.status(200).json({
       message: "Inicio de sesión exitoso",
       token,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error al iniciar sesión", error: error.message });
+    console.error("Error al iniciar sesión:", error);
+    response.status(500).json({ message: "Error al iniciar sesión", error: error.message });
   }
 };
 
-exports.validarToken = (req, res) => {
-  const token = req.header("Authorization");
+//* Validar token
+exports.validarToken = (request, response) => {
+  const token = request.header("Authorization");
   if (!token) {
-    return res.status(401).json({ message: "Acceso denegado. No se proporcionó un token." });
+    return response.status(401).json({ message: "Acceso denegado. No se proporcionó un token." });
   }
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    res.status(200).json({ message: "Token válido", data: payload });
+    response.status(200).json({ message: "Token válido", data: payload });
   } catch (error) {
-    res.status(401).json({ message: "Token no válido", error: error.message });
+    console.error("Error al validar token:", error);
+    response.status(401).json({ message: "Token no válido", error: error.message });
   }
 };
