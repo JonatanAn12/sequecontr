@@ -26,7 +26,7 @@ exports.iniciarSesion = async (request, response) => {
     }
 
     //* Crear el token JWT
-    const token = jwt.sign(
+    const token = jwt.sign( //* metodo donde hay carga de datos util, una clave secreta y un tiempo de expiracion.
       { id: usuarioDB.id, rol: usuarioDB.rol },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
